@@ -73,7 +73,7 @@ ENV PATH $PATH:/usr/local/php/sbin
 COPY php.ini /usr/local/php/etc/
 COPY php-fpm.conf /usr/local/php/etc/
 COPY www.conf /usr/local/php/etc/php-fpm.d/
-
+RUN rm -rf /root/*
 COPY run.sh /tmp/run.sh
 RUN chmod +x /tmp/run.sh
 EXPOSE 80 443 9000
