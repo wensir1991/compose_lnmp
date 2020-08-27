@@ -5,7 +5,7 @@ RUN yum install -y gcc wget gcc-c++ make \
     iproute net-tools telnet wget curl unzip perl kernel-headers kernel-devel vim && \
     yum clean all && \
     rm -rf /var/cache/yum/*
-RUN yum -y install gcc make pcre pcre-devel zlib zlib-devel openssl-devel  readline-devel && \
+RUN yum -y install gcc make pcre pcre-devel zlib zlib-devel openssl-devel  readline-devel kernel-headers kernel-devel  && \
     cd && \
     wget https://openresty.org/download/openresty-1.15.8.1.tar.gz  && \
     tar zxf openresty-1.15.8.1.tar.gz && \
@@ -27,8 +27,8 @@ RUN yum -y install gcc make pcre pcre-devel zlib zlib-devel openssl-devel  readl
 ENV PATH $PATH:/usr/local/openresty/nginx/sbin
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY osce.conf /usr/local/openresty/nginx/conf/vhosts/osce.conf
-COPY www.wenjusir.cn.key  /usr/local/openresty/nginx/conf/ssl/www.wenjusir.cn.key
-COPY www.wenjusir.cn.pem  /usr/local/openresty/nginx/conf/ssl/www.wenjusir.cn.pem
+COPY ssl/bbs.sunwenju.com.pem  /usr/local/openresty/nginx/conf/ssl/
+COPY ssl/bbs.sunwenju.com-key.pem  /usr/local/openresty/nginx/conf/ssl/
 
 RUN yum install epel-release -y && \
     yum install -y gcc gcc-c++ make gd-devel libxml2-devel \
@@ -73,7 +73,7 @@ ENV PATH $PATH:/usr/local/php/sbin
 COPY php.ini /usr/local/php/etc/
 COPY php-fpm.conf /usr/local/php/etc/
 COPY www.conf /usr/local/php/etc/php-fpm.d/
-RUN rm -rf /root/*
+RUN rm -rf /root/*  
 COPY run.sh /tmp/run.sh
 RUN chmod +x /tmp/run.sh
 EXPOSE 80 443 9000
