@@ -1,21 +1,24 @@
 version: '3'
 services:
   nginx_php:
-    hostname: nginx_php
-    build:
-      context: ./nginx_php
-      dockerfile: Dockerfile_php_nginx
+    container_name: nginx_php
+    image: registry.cn-shenzhen.aliyuncs.com/wenjusir/aju:nginx_php
+    #build:
+      #context: ./nginx_php
+      #dockerfile: Dockerfile_php_nginx
     ports:
       - 80:80
       - 443:443
+      - 9000:9000
     networks:
       - lnmp
     volumes:
       - ./wwwroot:/usr/local/openresty/nginx/html
       - ./nginx_php/conf/vhosts/osce.conf:/usr/local/openresty/nginx/conf/vhosts/osce.conf
+      - ./nginx_php/ssl:/usr/local/openresty/nginx/conf/ssl      
 
   mysql:
-    hostname: mysql
+    container_name: mysql5.7
     image: mysql:5.7
     ports:
       - 3306:3306
@@ -26,10 +29,23 @@ services:
       - ./mysql/data:/var/lib/mysql
     command: --character-set-server=utf8
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: wordpress 
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: 123456 
+      MYSQL_ROOT_PASSWORD: 123456@
+  
+  redis:
+    container_name: redis
+    image: registry.cn-shenzhen.aliyuncs.com/wenjusir/aju:redis
+    #build:
+      #context: ./nginx_tomcat
+      #dockerfile: Dockerfile_redis
+    ports:
+      - 6379:6379
+    
+    networks:
+      - lnmp
+    volumes:
+      - ./redis:/data
+      - ./redis/conf:/usr/local/etc/redis
+    command: redis-server --port 6379 --requirepass 123456@ --appendonly yes
 
 networks:
   lnmp: {} 
