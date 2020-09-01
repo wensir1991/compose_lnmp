@@ -14,7 +14,8 @@ services:
       - lnmp
     volumes:
       - ./wwwroot:/usr/local/openresty/nginx/html
-      - ./nginx_php/conf/vhosts/osce.conf:/usr/local/openresty/nginx/conf/vhosts/osce.conf
+      - ./nginx_php/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./nginx_php/osce.conf:/usr/local/openresty/nginx/conf/vhosts/osce.conf
       - ./nginx_php/ssl:/usr/local/openresty/nginx/conf/ssl      
 
   mysql:
