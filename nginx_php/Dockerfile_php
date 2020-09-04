@@ -44,7 +44,5 @@ COPY php.ini /usr/local/php/etc/
 COPY php-fpm.conf /usr/local/php/etc/
 COPY www.conf /usr/local/php/etc/php-fpm.d/
 RUN rm -rf /root/*  
-COPY run.sh /tmp/run.sh
-RUN chmod +x /tmp/run.sh
 EXPOSE 9000
-CMD ["/tmp/run.sh"]
+CMD ["/usr/local/php/sbin/php-fpm","-F","-R"]
