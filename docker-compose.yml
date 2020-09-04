@@ -34,6 +34,7 @@ services:
       - ./nginx_php/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
       - ./nginx_php/php.ini:/usr/local/php/etc/php.ini
       - ./nginx_php/www.conf:/usr/local/php/etc/php-fpm.d/www.conf
+      - ./wwwroot:/usr/local/openresty/nginx/html
 
   mysql:
     container_name: mysql5.7
