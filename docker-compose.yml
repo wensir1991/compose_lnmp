@@ -1,15 +1,15 @@
 version: '3'
 services:
-  nginx_php:
-    container_name: nginx_php
-    image: registry.cn-shenzhen.aliyuncs.com/wenjusir/aju:nginx_php
+  nginx:
+    container_name: nginx
+    image: registry.cn-shenzhen.aliyuncs.com/wenjusir/aju:nginx
     #build:
       #context: ./nginx_php
-      #dockerfile: Dockerfile_php_nginx
+      #dockerfile: Dockerfile_nginx
     ports:
       - 80:80
       - 443:443
-      - 9000:9000
+     
     networks:
       - lnmp
     volumes:
@@ -17,6 +17,23 @@ services:
       - ./nginx_php/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx_php/osce.conf:/usr/local/openresty/nginx/conf/vhosts/osce.conf
       - ./nginx_php/ssl:/usr/local/openresty/nginx/conf/ssl      
+
+  php:
+    container_name: php7
+    image: registry.cn-shenzhen.aliyuncs.com/wenjusir/aju:php7
+    #build:
+      #context: ./nginx_php
+      #dockerfile: Dockerfile_php
+    ports:
+      - 9000:9000
+           
+    networks:
+      - lnmp
+    volumes:
+      
+      - ./nginx_php/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
+      - ./nginx_php/php.ini:/usr/local/php/etc/php.ini
+      - ./nginx_php/www.conf:/usr/local/php/etc/php-fpm.d/www.conf
 
   mysql:
     container_name: mysql5.7
